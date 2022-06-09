@@ -1,8 +1,6 @@
 import { graphql } from "@octokit/graphql";
-import { Query } from "@octokit/graphql/dist-types/types";
-import { CommandInteraction, Message } from "discord.js";
 import type { SimpleCommandMessage } from "discordx";
-import { Discord, SimpleCommand, Slash } from "discordx";
+import { Discord, SimpleCommand } from "discordx";
 
 const accessToken = process.env.GITHUB_TOKEN;
 const githubGraphqlAPI = graphql.defaults({
@@ -11,16 +9,18 @@ const githubGraphqlAPI = graphql.defaults({
   }
 });
 
-const query = ($username: string) => `
+const DateQuery = ($username: string) => `
 {
   user(login: "${$username}"){
     contributionsCollection {
       contributionCalendar {
-        totalContributions
         weeks {
           contributionDays {
             contributionCount
+            color
             date
+            contributionLevel
+            weekday
           }
         }
       }
@@ -30,13 +30,13 @@ const query = ($username: string) => `
 `;
 
 @Discord()
-export class Example {
+export class Grass {
   @SimpleCommand("grass", { aliases: ["잔디"] })
   async SimplePing(command: SimpleCommandMessage): Promise<void> {
     const $username = command.message.content.replace("!잔디 ", "").replace("!grass ", '').trim().split(/ +/g);
 
     $username.forEach(async arg => {
-      const { user } = await githubGraphqlAPI(query(arg));
+      const { user } = await githubGraphqlAPI(DateQuery(arg));
       console.log(user.contributionsCollection);
     })
   }
