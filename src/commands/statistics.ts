@@ -10,9 +10,9 @@ const githubGraphqlAPI = graphql.defaults({
   }
 });
 
-const statQuery = ($username: string) => `
+const statQuery = (username: string) => `
 {
-  user(login: "${$username}"){
+  user(login: "${username}"){
     contributionsCollection {
       contributionCalendar {
         totalContributions
@@ -30,9 +30,9 @@ const statisticsEmbed = new MessageEmbed()
 export class Statistics {
   @SimpleCommand("stat", { aliases: ["통계"] })
   async SimplePing(command: SimpleCommandMessage): Promise<void> {
-    const $username = command.message.content.replace("!stat ", "").replace("!통계 ", '').trim().split(/ +/g);
+    const username = command.message.content.replace("!stat ", "").replace("!통계 ", '').trim().split(/ +/g);
 
-    $username.forEach(async arg => {
+    username.forEach(async arg => {
       const { user } = await githubGraphqlAPI(statQuery(arg));
       console.log(user.contributionsCollection);
     })

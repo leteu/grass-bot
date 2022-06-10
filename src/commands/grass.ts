@@ -9,9 +9,9 @@ const githubGraphqlAPI = graphql.defaults({
   }
 });
 
-const DateQuery = ($username: string) => `
+const DateQuery = (username: string) => `
 {
-  user(login: "${$username}"){
+  user(login: "${username}"){
     contributionsCollection {
       contributionCalendar {
         weeks {
@@ -33,9 +33,9 @@ const DateQuery = ($username: string) => `
 export class Grass {
   @SimpleCommand("grass", { aliases: ["잔디"] })
   async SimplePing(command: SimpleCommandMessage): Promise<void> {
-    const $username = command.message.content.replace("!잔디 ", "").replace("!grass ", '').trim().split(/ +/g);
+    const username = command.message.content.replace("!잔디 ", "").replace("!grass ", '').trim().split(/ +/g);
 
-    $username.forEach(async arg => {
+    username.forEach(async arg => {
       const { user } = await githubGraphqlAPI(DateQuery(arg));
       console.log(user.contributionsCollection);
     })
