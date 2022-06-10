@@ -30,11 +30,12 @@ const statisticsEmbed = new MessageEmbed()
 export class Statistics {
   @SimpleCommand("stat", { aliases: ["통계"] })
   async SimplePing(command: SimpleCommandMessage): Promise<void> {
-    const username = command.message.content.replace("!stat ", "").replace("!통계 ", '').trim().split(/ +/g);
+    const username = command.message.content.replace("!", "").replace("stat ", "").replace("통계 ", '').trim().split(/ +/g);
 
     username.forEach(async arg => {
       const { user } = await githubGraphqlAPI(statQuery(arg));
       console.log(user.contributionsCollection);
+      command.message.reply(`커밋 합계 : ${user.contributionsCollection.contributionCalendar.totalContributions}`);
     })
   }
 }
