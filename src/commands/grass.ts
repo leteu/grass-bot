@@ -2,7 +2,7 @@ import util from "util";
 import { graphql } from "@octokit/graphql";
 import type { SimpleCommandMessage } from "discordx";
 import { Discord, SimpleCommand } from "discordx";
-import grassWidget from '../grassWidget';
+import grassWidget from '../events/grassWidget.ts';
 import { MessageEmbed } from "discord.js";
 
 type HexColorString = `#${string}`;
@@ -108,6 +108,12 @@ export class Grass {
         .reverse()
         .map((item) => item.contributionDays)
         .flat(2), 7);
+
+      const embed = new MessageEmbed()
+          .setTitle('Attachment')
+          .setImage('attachment://leteu.svg');
+
+      const svgFile = await grassWidget('leteu', 15, dateArr);
 
       console.log(util.inspect(dateArr, false, 3));
     });
