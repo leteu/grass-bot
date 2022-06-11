@@ -1,5 +1,5 @@
 import { ContributionDay } from "../commands/grass";
-// import SVGToImage from '../SVGToImage.js';
+import { DOMParser } from 'xmldom';
 
 function createPath(week: number, arr: ContributionDay[]) {
   let txt = "";
@@ -27,7 +27,7 @@ function createPath(week: number, arr: ContributionDay[]) {
   return txt;
 }
 
-export default async function createSvg(username: string, today: number, weeks: ContributionDay[][]) {
+const grassWidget = async (username: string, today: number, weeks: ContributionDay[][]) => {
   const parser = new DOMParser();
   const svgText = `
     <svg
@@ -55,15 +55,12 @@ export default async function createSvg(username: string, today: number, weeks: 
 
   const element = parser.parseFromString(svgText, "image/svg+xml").getElementsByTagNameNS("http://www.w3.org/2000/svg", "svg").item(0) as SVGElement;
 
-  var svgData = element.outerHTML;
-  var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
-  var svgUrl = URL.createObjectURL(svgBlob);
-  var downloadLink = document.createElement("a");
-  downloadLink.href = svgUrl;
-  downloadLink.download = "newesttree.svg";
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
+  const svgData = element.outerHTML;
+  const svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+  const svgUrl = URL.createObjectURL(svgBlob);
 
-  return () => {};
+  return svgBlob.arrayBuffer();
+  // return svgUrl;
 };
+
+export default grassWidget;

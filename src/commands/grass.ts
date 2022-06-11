@@ -109,13 +109,25 @@ export class Grass {
         .map((item) => item.contributionDays)
         .flat(2), 7);
 
-      const embed = new MessageEmbed()
-          .setTitle('Attachment')
-          .setImage('attachment://leteu.svg');
-
       const svgFile = await grassWidget('leteu', 15, dateArr);
 
-      console.log(util.inspect(dateArr, false, 3));
+      const embed = new MessageEmbed()
+          .setTitle("leteu's 잔디")
+          .setColor("AQUA")
+          .setImage(svgFile);
+
+      command.message.channel.send({embeds: [embed]});
+
+      // command.message.reply({
+      //   files: [
+      //     {
+      //       file: svgFile,
+      //       name: 'leteu.svg'
+      //     }
+      //   ]
+      // })
+
+      // console.log(util.inspect(dateArr, false, 3));
     });
   }
 }
