@@ -99,34 +99,38 @@ export class Grass {
     if (username.length === 0) return;
 
     username.forEach(async (arg) => {
-      const { user } = await githubGraphqlAPI(DateQuery(arg));
-      const weeks: { contributionDays: ContributionDay[] }[] =
-        user.contributionsCollection.contributionCalendar.weeks;
-      const total = user.contributionsCollection.contributionCalendar.totalContributions;
-
-      const dateArr = divistion(weeks
-        .reverse()
-        .slice(0, 16)
-        .reverse()
-        .map((item) => item.contributionDays)
-        .flat(2), 7);
-
-      await grassWidget(arg, total, dateArr);
-
-      const file = new MessageAttachment(path.resolve(__dirname, 'users', `${arg}.png`));
-      const embed = new MessageEmbed()
-          .setColor("AQUA")
-          .setTitle(`${arg}'s 잔디`)
-          .setDescription('Github contributions in the last 16 weeks')
-          .setImage(`attachment://${arg}.png`)
-          .setAuthor({ name: 'leteu', url: 'https://github.com/leteu' })
-          .setTimestamp()
-          .setFooter({ text: '문의 : leteu#0718', iconURL: 'https://avatars.githubusercontent.com/u/77822996?v=4' });
-
-      command.message.reply({
-        embeds: [embed],
-        files: [file]
-      })
+      try {
+        const { user } = await githubGraphqlAPI(DateQuery(arg));
+        const weeks: { contributionDays: ContributionDay[] }[] =
+          user.contributionsCollection.contributionCalendar.weeks;
+        const total = user.contributionsCollection.contributionCalendar.totalContributions;
+  
+        const dateArr = divistion(weeks
+          .reverse()
+          .slice(0, 16)
+          .reverse()
+          .map((item) => item.contributionDays)
+          .flat(2), 7);
+  
+        await grassWidget(arg, total, dateArr);
+  
+        const file = new MessageAttachment(path.resolve(__dirname, 'users', `${arg}.png`));
+        const embed = new MessageEmbed()
+            .setColor("AQUA")
+            .setTitle(`${arg}'s 잔디`)
+            .setDescription('Github contributions in the last 16 weeks')
+            .setImage(`attachment://${arg}.png`)
+            .setAuthor({ name: 'leteu', url: 'https://github.com/leteu' })
+            .setTimestamp()
+            .setFooter({ text: '문의 : leteu#0718', iconURL: 'https://avatars.githubusercontent.com/u/77822996?v=4' });
+  
+        command.message.reply({
+          embeds: [embed],
+          files: [file]
+        })
+      } catch (e) {
+        command.message.reply(`${arg} is not defined.\n${arg}를 찾을 수 없습니다.`)
+      }
     });
   }
 }
