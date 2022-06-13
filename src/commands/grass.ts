@@ -2,11 +2,11 @@ import util from "util";
 import { graphql } from "@octokit/graphql";
 import type { SimpleCommandMessage } from "discordx";
 import { Discord, SimpleCommand } from "discordx";
-import grassWidget from '../events/grassWidget.ts';
+import grassWidget from "../events/grassWidget.ts";
 import { MessageAttachment, MessageEmbed } from "discord.js";
-import * as path from 'path';
+import * as path from "path";
 const __dirname = path.resolve();
-import * as fs from 'fs';
+import * as fs from "fs";
 
 type HexColorString = `#${string}`;
 type ContributionLevelType =
@@ -25,22 +25,22 @@ export interface ContributionDay {
    */
   date: string;
   /**
-   * **NONE** - *No contributions occurred.*   
-   * **FIRST_QUARTILE** - *Lowest 25% of days of contributions.*   
-   * **SECOND_QUARTILE** - *Second lowest 25% of days of contributions. More contributions than the first quartile.*   
-   * **THIRD_QUARTILE** - *Second highest 25% of days of contributions. More contributions than second quartile, less than the fourth quartile.*   
+   * **NONE** - *No contributions occurred.*
+   * **FIRST_QUARTILE** - *Lowest 25% of days of contributions.*
+   * **SECOND_QUARTILE** - *Second lowest 25% of days of contributions. More contributions than the first quartile.*
+   * **THIRD_QUARTILE** - *Second highest 25% of days of contributions. More contributions than second quartile, less than the fourth quartile.*
    * **FOURTH_QUARTILE** - *Highest 25% of days of contributions. More contributions than the third quartile.*
    */
   contributionLevel: ContributionLevelType;
   /**
-   * number   
-   * **0** - *Sunday(일)*   
-   * **1** - *Monday(월)*   
-   * **2** - *Tuesday(화)*   
-   * **3** - *Wednesday(수)*   
-   * **4** - *Thursday(목)*   
-   * **5** - *Friday(금)*   
-   * **6** - *Saturday(토)*   
+   * number
+   * **0** - *Sunday(일)*
+   * **1** - *Monday(월)*
+   * **2** - *Tuesday(화)*
+   * **3** - *Wednesday(수)*
+   * **4** - *Thursday(목)*
+   * **5** - *Friday(금)*
+   * **6** - *Saturday(토)*
    */
   weekday: weekdayType;
 }
@@ -89,58 +89,79 @@ function divistion(arr: ContributionDay[], n: number) {
 export class Grass {
   @SimpleCommand("grass", { aliases: ["잔디"] })
   async SimplePing(command: SimpleCommandMessage): Promise<void> {
-    command
+    command;
 
     const username = command.message.content
-      .replace("!", "").trim()
-      .replace("잔디 ", "").trim()
-      .replace("grass ", "").trim()
+      .replace("!", "")
+      .trim()
+      .replace("잔디 ", "")
+      .trim()
+      .replace("grass ", "")
+      .trim()
       .split(/ +/g);
 
-    if (username.length === 0) return;
+    if (username.length === 0) throw void 0;
 
     username.forEach(async (arg) => {
       try {
         const { user } = await githubGraphqlAPI(DateQuery(arg));
         const weeks: { contributionDays: ContributionDay[] }[] =
           user.contributionsCollection.contributionCalendar.weeks;
-        const total = user.contributionsCollection.contributionCalendar.totalContributions;
-  
-        const dateArr = divistion(weeks
-          .reverse()
-          .slice(0, 16)
-          .reverse()
-          .map((item) => item.contributionDays)
-          .flat(2), 7);
-  
-        await grassWidget(arg, total, dateArr);
-  
-        const file = new MessageAttachment(path.resolve(__dirname, 'users', `${arg}.png`));
-        const embed = new MessageEmbed()
-            .setColor("AQUA")
-            .setTitle(`${arg}'s 잔디`)
-            .setDescription('Github contributions in the last 16 weeks')
-            .setImage(`attachment://${arg}.png`)
-            .setAuthor({ name: 'leteu', url: 'https://github.com/leteu' })
-            .setTimestamp()
-            .setFooter({ text: '문의 : leteu#0718', iconURL: 'https://avatars.githubusercontent.com/u/77822996?v=4' });
-  
-        command.message.reply({
-          embeds: [embed],
-          files: [file]
-        }).then(() => {
-          fs.unlink(path.resolve(__dirname, 'users', `${arg}.png`), function (err) {
-            if (err) throw err;
-            console.log(`successfully deleted ${arg}.png`);
-          });
-          fs.unlink(path.resolve(__dirname, 'users', `${arg}.svg`), function (err) {
-            if (err) throw err;
-            console.log(`successfully deleted ${arg}.svg`);
-          });
-        });
+        const total =
+          user.contributionsCollection.contributionCalendar.totalContributions;
 
+        const dateArr = divistion(
+          weeks
+            .reverse()
+            .slice(0, 16)
+            .reverse()
+            .map((item) => item.contributionDays)
+            .flat(2),
+          7
+        );
+
+        await grassWidget(arg, total, dateArr);
+
+        const file = new MessageAttachment(
+          path.resolve(__dirname, "users", `${arg}.png`)
+        );
+        const embed = new MessageEmbed()
+          .setColor("AQUA")
+          .setTitle(`${arg}'s 잔디`)
+          .setDescription("Github contributions in the last 16 weeks")
+          .setImage(`attachment://${arg}.png`)
+          .setAuthor({ name: "leteu", url: "https://github.com/leteu" })
+          .setTimestamp()
+          .setFooter({
+            text: "문의 : leteu#0718",
+            iconURL: "https://avatars.githubusercontent.com/u/77822996?v=4",
+          });
+
+        command.message
+          .reply({
+            embeds: [embed],
+            files: [file],
+          })
+          .then(() => {
+            fs.unlink(
+              path.resolve(__dirname, "users", `${arg}.png`),
+              function (err) {
+                if (err) throw err;
+                console.log(`successfully deleted ${arg}.png`);
+              }
+            );
+            fs.unlink(
+              path.resolve(__dirname, "users", `${arg}.svg`),
+              function (err) {
+                if (err) throw err;
+                console.log(`successfully deleted ${arg}.svg`);
+              }
+            );
+          });
       } catch (e) {
-        command.message.reply(`${arg} is not defined.\n${arg}를 찾을 수 없습니다.`)
+        command.message.reply(
+          `${arg} is not defined.\n${arg}를 찾을 수 없습니다.`
+        );
       }
     });
   }
