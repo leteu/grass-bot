@@ -1,6 +1,5 @@
 import { ContributionDay } from "../commands/grass";
 import { DOMParser } from "xmldom";
-import * as http from 'http';
 import * as fs from "fs";
 
 function createPath(week: number, arr: ContributionDay[]) {
@@ -58,11 +57,10 @@ const grassWidget = async (
     </g>
   </svg>`;
 
-  fs.writeFile('./users/leteu.svg', svgText, 'binary', (err) => {
+  fs.writeFile(`./users/${username}.svg`, svgText, 'binary', (err) => {
     if(err) throw err;
-    console.log(`file ${'leteu'}.svg is write complete`);
+    console.log(`file ${username}.svg is write complete`);
   });
-  // return svgUrl;
 };
 
 export default grassWidget;
