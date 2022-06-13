@@ -1,5 +1,4 @@
 import { ContributionDay } from "../commands/grass";
-import { DOMParser } from "xmldom";
 import * as fs from "fs";
 import * as path from 'path';
 import sharp from 'sharp';

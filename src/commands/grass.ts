@@ -1,4 +1,3 @@
-import util from "util";
 import { graphql } from "@octokit/graphql";
 import type { SimpleCommandMessage } from "discordx";
 import { Discord, SimpleCommand } from "discordx";

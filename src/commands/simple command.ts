@@ -1,5 +1,4 @@
-import { channel } from "diagnostics_channel";
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import type { SimpleCommandMessage } from "discordx";
 import {
   Discord,

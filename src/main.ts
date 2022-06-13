@@ -4,9 +4,6 @@ import { dirname, importx } from "@discordx/importer";
 import type { Interaction, Message } from "discord.js";
 import { Intents } from "discord.js";
 import { Client } from "discordx";
-import * as http from 'http';
-import * as url from 'url';
-import * as fs from 'fs';
 
 export const bot = new Client({
   // To only use global commands (use @Guild for specific guild command), comment this line
