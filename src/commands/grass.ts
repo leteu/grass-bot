@@ -116,13 +116,13 @@ export class Grass {
       const embed = new MessageEmbed()
           .setTitle(`${arg}'s 잔디`)
           .setColor("AQUA")
-          .setImage(`http://localhost:80/users/${arg}.jpeg`);
+          .setImage(`http://localhost:80/users/${arg}.png`);
 
       // command.message.channel.send({embeds: [embed]});
 
       command.message.reply({
         embeds: [embed],
-        files: [`users/${arg}.jpeg`]
+        files: [`users/${arg}.png`]
       })
     });
   }

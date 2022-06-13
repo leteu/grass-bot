@@ -37,7 +37,6 @@ const grassWidget = async (
   total: number,
   weeks: ContributionDay[][]
 ) => {
-  const parser = new DOMParser();
   const svgText = `<?xml version="1.0" encoding="utf-8"?>
   <svg
     version="1.1"
@@ -64,8 +63,9 @@ const grassWidget = async (
   });
 
   await sharp(`./users/${username}.svg`)
-    .jpeg()
-    .toFile(`./users/${username}.jpeg`)
+    .resize(4400, 2300)
+    .png()
+    .toFile(`./users/${username}.png`)
     .then(function(info: any) {
       console.log(info)
     })
