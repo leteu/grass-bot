@@ -67,7 +67,8 @@ const grassWidget = async (
     .png()
     .toFile(`./users/${username}.png`)
     .then(function(info: any) {
-      console.log(info)
+      console.log(`${username}.svg conver to ${username}.png`);
+      console.log(info);
     })
     .catch(function(err: any) {
       console.log(err)
