@@ -54,6 +54,7 @@ const DateQuery = (username: string) => `
   user(login: "${username}"){
     contributionsCollection {
       contributionCalendar {
+        totalContributions
         weeks {
           contributionDays {
             contributionCount
@@ -101,6 +102,7 @@ export class Grass {
       const { user } = await githubGraphqlAPI(DateQuery(arg));
       const weeks: { contributionDays: ContributionDay[] }[] =
         user.contributionsCollection.contributionCalendar.weeks;
+      const total = user.contributionsCollection.contributionCalendar.totalContributions;
 
       const dateArr = divistion(weeks
         .reverse()
@@ -109,14 +111,14 @@ export class Grass {
         .map((item) => item.contributionDays)
         .flat(2), 7);
 
-      await grassWidget('leteu', 15, dateArr);
+      await grassWidget(arg, total, dateArr);
 
-      // const embed = new MessageEmbed()
-      //     .setTitle("leteu's 잔디")
-      //     .setColor("AQUA")
-      //     .setImage('/users/leteu.svg');
+      const embed = new MessageEmbed()
+          .setTitle(`${arg}'s 잔디`)
+          .setColor("AQUA")
+          .setImage(`http://localhost:80/users/${arg}.svg`);
 
-      // command.message.channel.send({embeds: [embed]});
+      command.message.channel.send({embeds: [embed]});
 
       // command.message.reply({
       //   files: [
