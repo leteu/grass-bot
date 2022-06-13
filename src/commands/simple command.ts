@@ -26,7 +26,7 @@ export class Example {
         .addFields(
           { name: '/help', value: '도움말' },
           { name: '!grass | !잔디 <Github Username>', value: 'Contributions calendar | 기여 달력' },
-          { name: '!stat | !통계 <Github Username>', value: 'Contributions statistics | 기여 통계' },
+          { name: '!stats | !통계 <Github Username>', value: 'Contributions statistics | 기여 통계' },
         );
 
     command.reply({ embeds: [embed], ephemeral: true });

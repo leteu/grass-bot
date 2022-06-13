@@ -28,7 +28,7 @@ const statisticsEmbed = new MessageEmbed()
 
 @Discord()
 export class Statistics {
-  @SimpleCommand("stat", { aliases: ["통계"] })
+  @SimpleCommand("stats", { aliases: ["통계"] })
   async SimplePing(command: SimpleCommandMessage): Promise<void> {
     const username = command.message.content.replace("!", "").replace("stat ", "").replace("통계 ", '').trim().split(/ +/g);
 
