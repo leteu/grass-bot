@@ -6,6 +6,7 @@ import grassWidget from '../events/grassWidget.ts';
 import { MessageAttachment, MessageEmbed } from "discord.js";
 import * as path from 'path';
 const __dirname = path.resolve();
+import * as fs from 'fs';
 
 type HexColorString = `#${string}`;
 type ContributionLevelType =
@@ -127,7 +128,17 @@ export class Grass {
         command.message.reply({
           embeds: [embed],
           files: [file]
-        })
+        }).then(() => {
+          fs.unlink(path.resolve(__dirname, 'users', `${arg}.png`), function (err) {
+            if (err) throw err;
+            console.log(`successfully deleted ${arg}.png`);
+          });
+          fs.unlink(path.resolve(__dirname, 'users', `${arg}.svg`), function (err) {
+            if (err) throw err;
+            console.log(`successfully deleted ${arg}.svg`);
+          });
+        });
+
       } catch (e) {
         command.message.reply(`${arg} is not defined.\n${arg}를 찾을 수 없습니다.`)
       }
