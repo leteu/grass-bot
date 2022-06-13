@@ -116,20 +116,14 @@ export class Grass {
       const embed = new MessageEmbed()
           .setTitle(`${arg}'s 잔디`)
           .setColor("AQUA")
-          .setImage(`http://localhost:80/users/${arg}.svg`);
+          .setImage(`attachment://${arg}.png`);
 
-      command.message.channel.send({embeds: [embed]});
+      // command.message.channel.send({embeds: [embed]});
 
-      // command.message.reply({
-      //   files: [
-      //     {
-      //       file: svgFile,
-      //       name: 'leteu.svg'
-      //     }
-      //   ]
-      // })
-
-      // console.log(util.inspect(dateArr, false, 3));
+      command.message.reply({
+        embeds: [embed],
+        files: [`users/${arg}.svg`]
+      })
     });
   }
 }
