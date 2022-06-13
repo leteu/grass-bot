@@ -1,1 +1,1 @@
-worker: export BOT_TOKEN=process.env.BOT_TOKEN && npm run start
+worker: npm run start
