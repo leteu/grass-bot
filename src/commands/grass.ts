@@ -104,19 +104,19 @@ export class Grass {
 
       const dateArr = divistion(weeks
         .reverse()
-        .slice(0, 15)
+        .slice(0, 16)
         .reverse()
         .map((item) => item.contributionDays)
         .flat(2), 7);
 
-      const svgFile = await grassWidget('leteu', 15, dateArr);
+      await grassWidget('leteu', 15, dateArr);
 
-      const embed = new MessageEmbed()
-          .setTitle("leteu's 잔디")
-          .setColor("AQUA")
-          .setImage(svgFile);
+      // const embed = new MessageEmbed()
+      //     .setTitle("leteu's 잔디")
+      //     .setColor("AQUA")
+      //     .setImage('/users/leteu.svg');
 
-      command.message.channel.send({embeds: [embed]});
+      // command.message.channel.send({embeds: [embed]});
 
       // command.message.reply({
       //   files: [
