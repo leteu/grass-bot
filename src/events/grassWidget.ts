@@ -1,7 +1,9 @@
 import { ContributionDay } from "../commands/grass";
 import { DOMParser } from "xmldom";
 import * as fs from "fs";
+import * as path from 'path';
 import sharp from 'sharp';
+const __dirname = path.resolve();
 
 function createPath(week: number, arr: ContributionDay[]) {
   let txt = "";
@@ -62,10 +64,10 @@ const grassWidget = async (
     console.log(`file ${username}.svg is write complete`);
   });
 
-  await sharp(`./users/${username}.svg`)
+  await sharp(path.resolve(__dirname, 'users', `${username}.svg`))
     .resize(4400, 2300)
     .png()
-    .toFile(`./users/${username}.png`)
+    .toFile(path.resolve(__dirname, 'users', `${username}.png`))
     .then(function(info: any) {
       console.log(`${username}.svg conver to ${username}.png`);
       console.log(info);

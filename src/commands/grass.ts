@@ -3,7 +3,9 @@ import { graphql } from "@octokit/graphql";
 import type { SimpleCommandMessage } from "discordx";
 import { Discord, SimpleCommand } from "discordx";
 import grassWidget from '../events/grassWidget.ts';
-import { MessageEmbed } from "discord.js";
+import { MessageAttachment, MessageEmbed } from "discord.js";
+import * as path from 'path';
+const __dirname = path.resolve();
 
 type HexColorString = `#${string}`;
 type ContributionLevelType =
@@ -82,8 +84,6 @@ function divistion(arr: ContributionDay[], n: number) {
   return tmp;
 }
 
-
-
 @Discord()
 export class Grass {
   @SimpleCommand("grass", { aliases: ["잔디"] })
@@ -113,16 +113,19 @@ export class Grass {
 
       await grassWidget(arg, total, dateArr);
 
+      const file = new MessageAttachment(path.resolve(__dirname, 'users', `${arg}.png`));
       const embed = new MessageEmbed()
-          .setTitle(`${arg}'s 잔디`)
           .setColor("AQUA")
-          .setImage(`http://localhost:80/users/${arg}.png`);
-
-      // command.message.channel.send({embeds: [embed]});
+          .setTitle(`${arg}'s 잔디`)
+          .setDescription('Github contributions in the last 16 weeks')
+          .setImage(`attachment://${arg}.png`)
+          .setAuthor({ name: 'leteu', url: 'https://github.com/leteu' })
+          .setTimestamp()
+          .setFooter({ text: '문의 : leteu#0718', iconURL: 'https://avatars.githubusercontent.com/u/77822996?v=4' });
 
       command.message.reply({
         embeds: [embed],
-        files: [`users/${arg}.png`]
+        files: [file]
       })
     });
   }
