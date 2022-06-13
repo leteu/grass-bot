@@ -59,9 +59,16 @@ const grassWidget = async (
     </g>
   </svg>`;
 
-  await fs.writeFile(`./users/${username}.svg`, svgText, 'binary', (err) => {
-    if(err) throw err;
-    console.log(`file ${username}.svg is write complete`);
+  await new Promise<void>((res, rej) => {
+    fs.writeFile(`./users/${username}.svg`, svgText, 'binary', (err) => {
+      if(err) {
+        rej(err);
+        throw err
+      };
+
+      console.log(`file ${username}.svg is write complete`);
+      res();
+    });
   });
 
   await sharp(path.resolve(__dirname, 'users', `${username}.svg`))
