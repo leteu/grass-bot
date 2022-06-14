@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "outDir": "build",
-    "rootDir": "src",
+    "baseUrl": ".",
     "strict": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
@@ -12,7 +12,12 @@
     "emitDecoratorMetadata": true,
 
     "skipLibCheck": false,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "src/*": [
+        "src/*"
+      ]
+    }
   },
   "exclude": ["build", "node_modules"]
 }
