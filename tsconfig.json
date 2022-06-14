@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "CommonJS",
     "outDir": "build",
     "baseUrl": ".",
     "strict": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-
+    "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-
+    "declaration": false,
+    "importHelpers": true,
+    "esModuleInterop": true,
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
     "paths": {

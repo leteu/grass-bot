@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
-  "type": "module",
+  "type": "commonjs",
   "main": "build/main.js",
   "scripts": {
     "build": "tsc",

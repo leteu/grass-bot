@@ -1,10 +1,10 @@
 import { graphql } from "@octokit/graphql";
 import type { SimpleCommandMessage } from "discordx";
 import { Discord, SimpleCommand } from "discordx";
-import grassWidget from "../events/grassWidget";
+import { grassWidget } from "../events/grassWidget";
 import { MessageAttachment, MessageEmbed } from "discord.js";
 import * as path from "path";
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 import * as fs from "fs";
 
 type HexColorString = `#${string}`;
@@ -122,7 +122,7 @@ export class Grass {
         await grassWidget(arg, total, dateArr);
 
         const file = new MessageAttachment(
-          path.resolve(__dirname, "users", `${arg}.png`)
+          path.resolve(path.resolve(), "users", `${arg}.png`)
         );
         const embed = new MessageEmbed()
           .setColor("AQUA")
@@ -143,14 +143,14 @@ export class Grass {
           })
           .then(() => {
             fs.unlink(
-              path.resolve(__dirname, "users", `${arg}.png`),
+              path.resolve(path.resolve(), "users", `${arg}.png`),
               function (err) {
                 if (err) throw err;
                 console.log(`successfully deleted ${arg}.png`);
               }
             );
             fs.unlink(
-              path.resolve(__dirname, "users", `${arg}.svg`),
+              path.resolve(path.resolve(), "users", `${arg}.svg`),
               function (err) {
                 if (err) throw err;
                 console.log(`successfully deleted ${arg}.svg`);
