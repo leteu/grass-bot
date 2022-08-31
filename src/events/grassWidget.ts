@@ -50,6 +50,10 @@ export async function grassWidget (
   </svg>`;
 
   await new Promise<void>((res, rej) => {
+    if (!fs.existsSync('./users')) {
+      fs.mkdirSync('./users')
+    }
+
     fs.writeFile(`./users/${username}.svg`, svgText, 'binary', (err) => {
       if(err) {
         rej(err);
