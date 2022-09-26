@@ -69,6 +69,10 @@ async function run() {
     throw Error("Could not find BOT_TOKEN in your environment");
   }
 
+  if (!process.env.GITHUB_TOKEN) {
+    throw Error("Colud not find GITHUB_TOKEN in your environment");
+  }
+
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN);
 }
