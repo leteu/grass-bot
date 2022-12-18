@@ -58,7 +58,7 @@ export async function grassWidget(username: string, total: number, weeks: Contri
   })
 
   await sharp(path.resolve(path.resolve(), 'users', `${username}.svg`))
-    .resize(4400, 2300)
+    .resize(880, 460)
     .png()
     .toFile(path.resolve(path.resolve(), 'users', `${username}.png`))
     .then(function (info: any) {
