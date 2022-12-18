@@ -96,31 +96,26 @@ export class Grass {
 
     interaction: CommandInteraction
   ): Promise<void> {
-    interaction.reply({
-      content:
-        'slash grass command will be released soon...\nplease use `!grass <username>` instead of splash\n\n슬래시 잔디 명령어는 준비중입니다...\n슬래시 명령어 대신 `!잔디 <username>`을 사용해보세요!',
-      ephemeral: true,
-    })
+    const result = await this.getGrassEmbed(username)
 
-    // const result = await this.getGrassEmbed(username)
+    if (typeof result === 'string') {
+      interaction.reply(result)
+    } else {
+      await interaction.reply({
+        embeds: [result.embed],
+        files: [result.file],
+        fetchReply: true,
+      })
 
-    // if (typeof result === 'string') {
-    //   interaction.reply(result)
-    // } else {
-    //   await interaction.reply({
-    //     embeds: [result.embed],
-    //     files: [result.file],
-    //   })
-
-    //   fs.unlink(path.resolve(path.resolve(), 'users', `${username}.png`), function (err) {
-    //     if (err) throw err
-    //     console.log(`successfully deleted ${username}.png`)
-    //   })
-    //   fs.unlink(path.resolve(path.resolve(), 'users', `${username}.svg`), function (err) {
-    //     if (err) throw err
-    //     console.log(`successfully deleted ${username}.svg`)
-    //   })
-    // }
+      fs.unlink(path.resolve(path.resolve(), 'users', `${username}.png`), function (err) {
+        if (err) throw err
+        console.log(`successfully deleted ${username}.png`)
+      })
+      fs.unlink(path.resolve(path.resolve(), 'users', `${username}.svg`), function (err) {
+        if (err) throw err
+        console.log(`successfully deleted ${username}.svg`)
+      })
+    }
   }
 
   public async getGrassEmbed(username: string) {
