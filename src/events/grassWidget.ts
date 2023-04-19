@@ -1,4 +1,4 @@
-import { ContributionDay } from 'types'
+import { ContributionDay } from 'src/types'
 import * as fs from 'fs'
 import * as path from 'path'
 import sharp from 'sharp'

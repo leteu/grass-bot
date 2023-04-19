@@ -6,7 +6,7 @@ import { CommandInteraction, MessageAttachment, MessageEmbed } from 'discord.js'
 import * as path from 'path'
 // const __dirname = path.resolve();
 import * as fs from 'fs'
-import { ContributionDay, GithubGraphQL } from 'types'
+import { ContributionDay, GithubGraphQL } from 'src/types'
 
 const accessToken = process.env.GITHUB_TOKEN
 const githubGraphqlAPI = graphql.defaults({

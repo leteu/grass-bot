@@ -1,7 +1,7 @@
 import { graphql } from '@octokit/graphql'
 import { CommandInteraction, MessageEmbed } from 'discord.js'
 import { Discord, Slash, SlashOption, SimpleCommand, SimpleCommandMessage } from 'discordx'
-import { GithubGraphQL } from 'types'
+import { GithubGraphQL } from 'src/types'
 
 const accessToken = process.env.GITHUB_TOKEN
 const githubGraphqlAPI = graphql.defaults({
