@@ -38,6 +38,7 @@ RUN npm install --only=production
 
 # Move build files
 COPY --from=build-runner /tmp/app/build /app/build
+COPY --from=build-runner /tmp/app/src/assets /app/build/assets
 
 # Start bot
 CMD BOT_TOKEN=${BOT_TOKEN} GITHUB_TOKEN=${GITHUB_TOKEN} npm run serve

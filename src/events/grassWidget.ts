@@ -35,7 +35,7 @@ export async function grassWidget(username: string, total: number, weeks: Contri
       <style>
         @font-face {
           font-family: 'MesloLGS-NF'
-          src: url('/src/assets/MesloLGS-NF-Regular.woff2') format('woff2');
+          src: url('/assets/MesloLGS-NF-Regular.woff2') format('woff2');
         }
         * {
           font-family: 'MesloLGS-NF';
