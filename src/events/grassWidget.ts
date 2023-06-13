@@ -22,24 +22,33 @@ function createPath(week: number, arr: ContributionDay[]) {
 
 export async function grassWidget(username: string, total: number, weeks: ContributionDay[][]) {
   const svgText = `<?xml version="1.0" encoding="utf-8"?>
-  <svg
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="0px"
-    y="0px"
-    viewBox="0 0 220 115"
-    style="enable-background:new 0 0 220 115;"
-    xml:space="preserve"
-  >
-    <g>
-      <path style="fill:#FFFFFF;" d="M212,115H8c-4.4,0-8-3.6-8-8V8c0-4.4,3.6-8,8-8h204c4.4,0,8,3.6,8,8v99C220,111.4,216.4,115,212,115z"/>
-      <text style="font-size:8px; font-weight: bolder; fill:#58595B;" transform="matrix(1 0 0 1 6.1306 12.5319)">${username}</text>
-      <text style="font-size:8px; font-weight: bolder; fill:#58595B;" transform="matrix(1 0 0 1 170.1461 12.5321)">TOTAL : ${total}</text>
-      <g>${weeks.map((item, index) => createPath(index, item)).join('')}
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      viewBox="0 0 220 115"
+      style="enable-background:new 0 0 220 115;"
+      xml:space="preserve"
+    >
+      <style>
+        @font-face {
+          font-family: 'MesloLGS-NF'
+          src: url('/src/assets/MesloLGS-NF-Regular.woff2') format('woff2');
+        }
+        * {
+          font-family: 'MesloLGS-NF';
+        }
+      </style>
+      <g>
+        <path style="fill:#FFFFFF;" d="M212,115H8c-4.4,0-8-3.6-8-8V8c0-4.4,3.6-8,8-8h204c4.4,0,8,3.6,8,8v99C220,111.4,216.4,115,212,115z"/>
+        <text style="font-size:8px; font-weight: bolder; fill:#58595B;" transform="matrix(1 0 0 1 6.1306 12.5319)">${username}</text>
+        <text style="font-size:8px; font-weight: bolder; fill:#58595B;" transform="matrix(1 0 0 1 170.1461 12.5321)">TOTAL : ${total}</text>
+        <g>${weeks.map((item, index) => createPath(index, item)).join('')}
+        </g>
       </g>
-    </g>
-  </svg>`
+    </svg>`
 
   await new Promise<void>((res, rej) => {
     if (!fs.existsSync('./users')) {
