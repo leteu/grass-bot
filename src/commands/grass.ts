@@ -134,18 +134,18 @@ export class Grass {
         7
       )
 
-      await grassWidget(username, total, dateArr)
+      await grassWidget(username, dateArr)
 
       const file = new MessageAttachment(path.resolve(path.resolve(), 'users', `${username}.png`))
       const embed = new MessageEmbed()
         .setColor('AQUA')
-        .setTitle(`${username}'s 잔디`)
-        .setDescription('Github contributions in the last 16 weeks')
+        .setTitle(`${username}'s grass`)
+        .setDescription(`${total} contributions in the last 16 weeks`)
         .setImage(`attachment://${username}.png`)
         .setAuthor({ name: 'leteu', url: 'https://github.com/leteu' })
         .setTimestamp()
         .setFooter({
-          text: '문의 : leteu#0718',
+          text: 'discord : leteu',
           iconURL: 'https://avatars.githubusercontent.com/u/77822996?v=4',
         })
 
