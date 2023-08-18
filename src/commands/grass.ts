@@ -1,12 +1,13 @@
 import { graphql } from '@octokit/graphql'
-import { SimpleCommandMessage, Slash, SlashOption } from 'discordx'
-import { Discord, SimpleCommand } from 'discordx'
-import { grassWidget } from '../events/grassWidget'
+import { Slash, SlashOption } from 'discordx'
+import { Discord } from 'discordx'
 import { CommandInteraction, MessageAttachment, MessageEmbed } from 'discord.js'
 import * as path from 'path'
 // const __dirname = path.resolve();
 import * as fs from 'fs'
+
 import { ContributionDay, GithubGraphQL } from 'src/types'
+import { grassWidget } from 'src/utils/grassWidget'
 
 const accessToken = process.env.GITHUB_TOKEN
 const githubGraphqlAPI = graphql.defaults({
@@ -50,44 +51,6 @@ function divistion(arr: ContributionDay[], n: number) {
 
 @Discord()
 export class Grass {
-  @SimpleCommand('grass', { aliases: ['잔디'] })
-  async SimpleGrass(command: SimpleCommandMessage): Promise<void> {
-    command
-
-    const username = command.message.content
-      .replace('!', '')
-      .trim()
-      .replace('잔디 ', '')
-      .trim()
-      .replace('grass ', '')
-      .trim()
-      .split(/ +/g)
-
-    if (username.length === 0) throw void 0
-
-    username.forEach(async (arg) => {
-      const result = await this.getGrassEmbed(arg)
-
-      if (typeof result === 'string') {
-        command.message.reply(result)
-      } else {
-        await command.message.reply({
-          embeds: [result.embed],
-          files: [result.file],
-        })
-
-        fs.unlink(path.resolve(path.resolve(), 'users', `${arg}.png`), function (err) {
-          if (err) throw err
-          console.log(`successfully deleted ${arg}.png`)
-        })
-        fs.unlink(path.resolve(path.resolve(), 'users', `${arg}.svg`), function (err) {
-          if (err) throw err
-          console.log(`successfully deleted ${arg}.svg`)
-        })
-      }
-    })
-  }
-
   @Slash('grass')
   @Slash('잔디')
   async SlashGrass(
@@ -142,7 +105,10 @@ export class Grass {
         .setTitle(`${username}'s grass`)
         .setDescription(`${total} contributions in the last 16 weeks`)
         .setImage(`attachment://${username}.png`)
-        .setAuthor({ name: 'leteu', url: 'https://github.com/leteu' })
+        .setAuthor({
+          name: 'leteu',
+          url: 'https://github.com/leteu',
+        })
         .setTimestamp()
         .setFooter({
           text: 'discord : leteu',

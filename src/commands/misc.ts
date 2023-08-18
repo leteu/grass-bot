@@ -2,7 +2,7 @@ import { CommandInteraction, MessageEmbed } from 'discord.js'
 import { Discord, Slash } from 'discordx'
 
 @Discord()
-export class Example {
+export class Misc {
   @Slash('ping')
   SlashPing(interaction: CommandInteraction): void {
     interaction.reply('pong!! 🏓')
@@ -17,14 +17,14 @@ export class Example {
       .setAuthor({
         name: 'leteu',
         iconURL: 'https://avatars.githubusercontent.com/u/77822996?v=4',
-        url: 'https://github.com/leteu',
+        url: 'https://discord.com/users/leteu',
       })
       .setTimestamp()
-      .setFooter({ text: '문의 : leteu#0718' })
+      .setFooter({ text: 'discord : leteu' })
       .addFields(
         { name: '/help', value: '도움말' },
-        { name: '/grass | /잔디 <Github Username>', value: 'Contributions calendar | 기여 달력' },
-        { name: '/stats | /통계 <Github Username>', value: 'Contributions statistics | 기여 통계' }
+        { name: '/grass <Github Username> | /잔디 <Github Username>', value: 'Contributions calendar | 기여 달력' },
+        { name: '/stats <Github Username> | /통계 <Github Username>', value: 'Contributions statistics | 기여 통계' }
       )
 
     command.reply({ embeds: [embed], ephemeral: true })

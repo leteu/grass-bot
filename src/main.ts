@@ -22,9 +22,9 @@ export const bot = new Client({
   silent: false,
 
   // Configuration for @SimpleCommand
-  simpleCommand: {
-    prefix: '!',
-  },
+  // simpleCommand: {
+  //   prefix: '!',
+  // },
 })
 
 bot.once('ready', async () => {
