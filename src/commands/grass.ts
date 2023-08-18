@@ -7,7 +7,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 
 import { ContributionDay, GithubGraphQL } from 'src/types'
-import { grassWidget } from 'src/utils/grassWidget'
+import { grassWidget } from '../utils/grassWidget'
 
 const accessToken = process.env.GITHUB_TOKEN
 const githubGraphqlAPI = graphql.defaults({
@@ -16,26 +16,25 @@ const githubGraphqlAPI = graphql.defaults({
   },
 })
 
-const DateQuery = (username: string) => `
-{
-  user(login: "${username}"){
-    contributionsCollection {
-      contributionCalendar {
-        totalContributions
-        weeks {
-          contributionDays {
-            contributionCount
-            color
-            date
-            contributionLevel
-            weekday
+const DateQuery = (username: string) =>
+  `{
+    user(login: "${username}"){
+      contributionsCollection {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              contributionCount
+              color
+              date
+              contributionLevel
+              weekday
+            }
           }
         }
       }
     }
-  }
-}
-`
+  }`
 
 function divistion(arr: ContributionDay[], n: number) {
   const len = arr.length
