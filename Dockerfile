@@ -1,5 +1,5 @@
 ## build runner
-FROM node:18 as build-runner
+FROM node:20-alpine3.18 as build-runner
 
 # Set temp directory
 WORKDIR /tmp/app
@@ -18,7 +18,7 @@ COPY tsconfig.json .
 RUN npm run build
 
 ## producation runner
-FROM node:18 as prod-runner
+FROM node:20-alpine3.18 as prod-runner
 
 ARG BOT_TOKEN
 ENV BOT_TOKEN ${BOT_TOKEN}
