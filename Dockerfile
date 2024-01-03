@@ -6,17 +6,18 @@ WORKDIR /tmp/app
 
 # Move package.json
 COPY package.json .
-COPY package-lock.json .
+
+RUN npm i -g pnpm
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Move source files
 COPY src ./src
 COPY tsconfig.json .
 
 # Build project
-RUN npm run build
+RUN pnpm run build
 
 ## producation runner
 FROM node:lts-alpine as prod-runner
@@ -33,11 +34,13 @@ WORKDIR /app
 COPY --from=build-runner /tmp/app/package.json /app/package.json
 COPY --from=build-runner /tmp/app/package-lock.json /app/package-lock.json
 
+RUN npm i -g pnpm
+
 # Install dependencies
-RUN npm install --only=production
+RUN pnpm install --only=production
 
 # Move build files
 COPY --from=build-runner /tmp/app/build /app/build
 
 # Start bot
-CMD BOT_TOKEN=${BOT_TOKEN} GITHUB_TOKEN=${GITHUB_TOKEN} npm run serve
+CMD BOT_TOKEN=${BOT_TOKEN} GITHUB_TOKEN=${GITHUB_TOKEN} pnpm run serve
