@@ -1,17 +1,18 @@
-import { CommandInteraction, MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionBase, CommandInteraction, EmbedBuilder } from 'discord.js'
 import { Discord, Slash } from 'discordx'
 
 @Discord()
 export class Misc {
-  @Slash('ping')
+  @Slash({ description: 'ping', name: 'ping' })
   SlashPing(interaction: CommandInteraction): void {
     interaction.reply('pong!! 🏓')
   }
 
-  @Slash('help')
+  @Slash({ description: '잔디 봇 도움말', name: '도움말' })
+  @Slash({ description: 'help for use grass bot', name: 'help' })
   SlashHelp(command: CommandInteraction): void {
-    const embed = new MessageEmbed()
-      .setColor('AQUA')
+    const embed = new EmbedBuilder()
+      .setColor('Aqua')
       .setTitle(`깃허브 기여도 확인 봇 - help`)
       .setDescription('Github contributions bot commands')
       .setAuthor({
@@ -24,7 +25,7 @@ export class Misc {
       .addFields(
         { name: '/help', value: '도움말' },
         { name: '/grass <Github Username> | /잔디 <Github Username>', value: 'Contributions calendar | 기여 달력' },
-        { name: '/stats <Github Username> | /통계 <Github Username>', value: 'Contributions statistics | 기여 통계' }
+        { name: '/stats <Github Username> | /통계 <Github Username>', value: 'Contributions statistics | 기여 통계' },
       )
 
     command.reply({ embeds: [embed], ephemeral: true })

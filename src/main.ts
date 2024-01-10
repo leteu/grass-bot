@@ -1,22 +1,36 @@
 import 'reflect-metadata'
 
 import { dirname, importx } from '@discordx/importer'
-import type { Interaction, Message } from 'discord.js'
-import { Intents } from 'discord.js'
+import type { Interaction, Message, RichPresenceAssets } from 'discord.js'
+import { IntentsBitField } from 'discord.js'
 import { Client } from 'discordx'
+
+interface StateInterface {
+  guildCnt: number
+}
+
+const state = new Proxy<StateInterface>(
+  {
+    guildCnt: 0,
+  },
+  {
+    get: (target, prop: keyof StateInterface) => {
+      return target[prop]
+    },
+    set: <T extends StateInterface, K extends keyof T>(target: T, prop: K, value: T[K]) => {
+      target[prop] = value
+
+      return true
+    },
+  },
+)
 
 export const bot = new Client({
   // To only use global commands (use @Guild for specific guild command), comment this line
   botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
 
   // Discord intents
-  intents: [
-    Intents.FLAGS.GUILDS,
-    // Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    // Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    // Intents.FLAGS.GUILD_VOICE_STATES,
-  ],
+  intents: [IntentsBitField.Flags.Guilds],
 
   // Debug logs are disabled in silent mode
   silent: false,
@@ -27,7 +41,7 @@ export const bot = new Client({
   // },
 })
 
-bot.once('ready', async () => {
+bot.once('ready', async (client) => {
   // Make sure all guilds are cached
   await bot.guilds.fetch()
 
@@ -46,6 +60,10 @@ bot.once('ready', async () => {
   //  );
 
   console.log('Bot started')
+
+  state.guildCnt = client.guilds.cache.size
+
+  setActivity(client as Client)
 })
 
 bot.on('interactionCreate', (interaction: Interaction) => {
@@ -54,6 +72,18 @@ bot.on('interactionCreate', (interaction: Interaction) => {
 
 bot.on('messageCreate', (message: Message) => {
   bot.executeCommand(message)
+})
+
+//joined a server
+bot.on('guildCreate', () => {
+  state.guildCnt += 1
+  setActivity(bot)
+})
+
+//removed from a server
+bot.on('guildDelete', () => {
+  state.guildCnt -= 1
+  setActivity(bot)
 })
 
 async function run() {
@@ -75,6 +105,12 @@ async function run() {
 
   // Log in with your bot token
   await bot.login(process.env.BOT_TOKEN)
+}
+
+function setActivity(client: Client) {
+  client.user?.setActivity({
+    name: `/도움말 /help | ${state.guildCnt}개의 서버에서 활동`,
+  })
 }
 
 run()

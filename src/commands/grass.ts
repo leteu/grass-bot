@@ -1,7 +1,7 @@
 import { graphql } from '@octokit/graphql'
-import { Slash, SlashOption } from 'discordx'
+import { Slash, SlashChoice, SlashOption } from 'discordx'
 import { Discord } from 'discordx'
-import { CommandInteraction, MessageAttachment, MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, AttachmentBuilder } from 'discord.js'
 import * as path from 'path'
 // const __dirname = path.resolve();
 import * as fs from 'fs'
@@ -50,13 +50,18 @@ function divistion(arr: ContributionDay[], n: number) {
 
 @Discord()
 export class Grass {
-  @Slash('grass')
-  @Slash('잔디')
+  @Slash({ name: 'grass', description: 'grass' })
+  @Slash({ name: '잔디', description: '잔디' })
   async SlashGrass(
-    @SlashOption('username', { description: 'Github username', required: true })
+    @SlashOption({
+      name: 'username',
+      description: 'Github username',
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    })
     username: string,
 
-    interaction: CommandInteraction
+    interaction: CommandInteraction,
   ): Promise<void> {
     const result = await this.getGrassEmbed(username)
 
@@ -93,14 +98,14 @@ export class Grass {
           .reverse()
           .map((item) => item.contributionDays)
           .flat(2),
-        7
+        7,
       )
 
       await grassWidget(username, dateArr)
 
-      const file = new MessageAttachment(path.resolve(path.resolve(), 'users', `${username}.png`))
-      const embed = new MessageEmbed()
-        .setColor('AQUA')
+      const file = new AttachmentBuilder(path.resolve(path.resolve(), 'users', `${username}.png`))
+      const embed = new EmbedBuilder()
+        .setColor('Aqua')
         .setTitle(`${username}'s grass`)
         .setDescription(`${total} contributions in the last 16 weeks`)
         .setImage(`attachment://${username}.png`)

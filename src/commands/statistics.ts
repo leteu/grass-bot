@@ -1,5 +1,5 @@
 import { graphql } from '@octokit/graphql'
-import { CommandInteraction, MessageEmbed } from 'discord.js'
+import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder } from 'discord.js'
 import { Discord, Slash, SlashOption } from 'discordx'
 import { GithubGraphQL } from 'src/types'
 
@@ -28,17 +28,20 @@ const statQuery = (username: string) => `
 }
 `
 
-const statisticsEmbed = new MessageEmbed().setColor('GREEN')
-
 @Discord()
 export class Statistics {
-  @Slash('stats')
-  @Slash('통계')
+  @Slash({ name: 'stats', description: 'stats' })
+  @Slash({ name: '통계', description: '통계' })
   async SlashStats(
-    @SlashOption('username', { description: 'Github username', required: true })
+    @SlashOption({
+      name: 'username',
+      description: 'Github username',
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    })
     username: string,
 
-    interaction: CommandInteraction
+    interaction: CommandInteraction,
   ): Promise<void> {
     const embed = await this.getStatsEmbed(username)
 
@@ -53,8 +56,8 @@ export class Statistics {
       const toIssues = user.contributionsCollection.issueContributions.totalCount
       const toPRs = user.contributionsCollection.pullRequestContributions.totalCount
 
-      const embed = new MessageEmbed()
-        .setColor('AQUA')
+      const embed = new EmbedBuilder()
+        .setColor('Aqua')
         .setTitle(`${username}'s Github Statistics`)
         .setAuthor({
           name: 'leteu',
@@ -68,7 +71,7 @@ export class Statistics {
         .addFields(
           { name: 'Total contributions', value: `${toContributions}` },
           { name: 'Total issues', value: `${toIssues}` },
-          { name: 'Total pull requests', value: `${toPRs}` }
+          { name: 'Total pull requests', value: `${toPRs}` },
         )
 
       return { embeds: [embed] }
