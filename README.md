@@ -20,6 +20,8 @@ Check Github contributions on discord.
 
 ```sh
 /help
+# or
+/도움말
 ```
 
 명령어 리스트를 보여줍니다.
@@ -30,9 +32,9 @@ showing command list.
 ### grass
 
 ```sh
-!grass <Github user name>
-# or
 /grass <Github user name>
+# or
+/잔디 <Github user name>
 ```
 
 <img width="773" alt="image" src="./misc/grass-help.png">
@@ -40,9 +42,9 @@ showing command list.
 ### stats
 
 ```sh
-!stats <Github user name>
-# or
 /stats <Github user name>
+# or
+/통계 <Github user name>
 ```
 
 <img width="773" alt="image" src="./misc/stats-help.png">
